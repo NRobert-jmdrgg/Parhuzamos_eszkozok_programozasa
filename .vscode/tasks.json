@@ -1,0 +1,29 @@
+{
+  "tasks": [
+    {
+      "label": "C OpenCL build",
+      "type": "shell",
+      "command": "make",
+      "args": [
+        "INPUT_FILEPATH=${workspaceFolder}/${relativeFile}",
+        "OUTPUT_FILEPATH=${workspaceFolder}/${relativeFileDirname}/bin/${fileBasenameNoExtension}.out"
+      ]
+    },
+    {
+      "label": "C OpenCL build and run",
+      "type": "shell",
+      "command": "make",
+      "args": [
+        "build_run",
+        "INPUT_FILEPATH=${workspaceFolder}/${relativeFile}",
+        "OUTPUT_FILEPATH=${workspaceFolder}/${relativeFileDirname}/bin/${fileBasenameNoExtension}.out"
+      ]
+    },
+    {
+      "label": "C OpenCL run",
+      "type": "shell",
+      "command": "make",
+      "args": ["run", "OUTPUT_FILEPATH=${workspaceFolder}/${relativeFileDirname}/bin/${fileBasenameNoExtension}.out"]
+    }
+  ]
+}
