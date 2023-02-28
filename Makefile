@@ -3,10 +3,10 @@
 CLAGS = -Wall
 
 all:
-	gcc $(NAME).c $(CLAGS) -o ./bin/$(NAME) `pkg-config --cflags --libs OpenCL`
+	gcc $(INPUT_FILEPATH) $(CLAGS) -o $(OUTPUT_FILEPATH) `pkg-config --cflags --libs OpenCL`
 
 build_run:
-	gcc $(NAME).c $(CLAGS) -o ./bin/$(NAME) `pkg-config --cflags --libs OpenCL` && ./bin/$(NAME)
+	gcc $(INPUT_FILEPATH) $(CLAGS) -o $(OUTPUT_FILEPATH) `pkg-config --cflags --libs OpenCL` && $(OUTPUT_FILEPATH)
 
-clean: 
-	$(RM) ./bin/$(NAME)
+run:
+	$(OUTPUT_FILEPATH)
