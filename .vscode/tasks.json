@@ -1,29 +1,39 @@
 {
   "tasks": [
     {
-      "label": "C OpenCL build",
+      "label": "create bin dir",
       "type": "shell",
-      "command": "make",
-      "args": [
-        "INPUT_FILEPATH=${workspaceFolder}/${relativeFile}",
-        "OUTPUT_FILEPATH=${workspaceFolder}/${relativeFileDirname}/bin/${fileBasenameNoExtension}.out"
-      ]
+      "options": {
+        "cwd": "${workspaceFolder}/${relativeFileDirname}"
+      },
+      "command": "mkdir",
+      "args": ["-p", "bin"]
     },
     {
-      "label": "C OpenCL build and run",
+      "label": "C OpenCL build",
       "type": "shell",
-      "command": "make",
+      "dependsOn": ["create bin dir"],
+      "command": "gcc",
       "args": [
-        "build_run",
-        "INPUT_FILEPATH=${workspaceFolder}/${relativeFile}",
-        "OUTPUT_FILEPATH=${workspaceFolder}/${relativeFileDirname}/bin/${fileBasenameNoExtension}.out"
+        "${workspaceFolder}/${relativeFile}",
+        "-o",
+        "${workspaceFolder}/${relativeFileDirname}/bin/${fileBasenameNoExtension}.out",
+        "-lOpenCL"
       ]
     },
     {
       "label": "C OpenCL run",
       "type": "shell",
-      "command": "make",
-      "args": ["run", "OUTPUT_FILEPATH=${workspaceFolder}/${relativeFileDirname}/bin/${fileBasenameNoExtension}.out"]
+      "options": {
+        "cwd": "${workspaceFolder}/${relativeFileDirname}"
+      },
+      "command": "./bin/${fileBasenameNoExtension}.out"
+    },
+    {
+      "label": "C OpenCL build and run",
+      "type": "shell",
+      "dependsOn": ["C OpenCL build", "C OpenCL run"],
+      "dependsOrder": "sequence"
     }
   ]
 }
