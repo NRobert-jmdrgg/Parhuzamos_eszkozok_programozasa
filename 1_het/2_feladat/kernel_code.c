@@ -36,8 +36,8 @@ int main() {
       clCreateContext(NULL, n_devices, &device_id, NULL, NULL, NULL);
 
   // Build the program
-  cl_program program =
-      clCreateProgramWithSource(context, 1, &kernel_code, NULL, NULL);
+  cl_program program = clCreateProgramWithSource(
+      context, 1, (const char **)&kernel_code, NULL, NULL);
 
   err = clBuildProgram(program, 0, NULL, NULL, NULL, NULL);
 
