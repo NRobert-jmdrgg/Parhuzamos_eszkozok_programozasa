@@ -15,23 +15,27 @@ int main() {
     printf("[ERROR] Error calling clGetPlatformIDs. Error code: %d\n", err);
     return 0;
   }
+
   printf("Detected OpenCL platforms: %d\n", n_platforms);
 
-  err = clGetPlatformInfo(platform_id, CL_PLATFORM_NAME, 1000, param_value, &real_size);
+  err = clGetPlatformInfo(platform_id, CL_PLATFORM_NAME, 1000, param_value,
+                          &real_size);
   if (err != CL_SUCCESS) {
     printf("[ERROR] Error calling clGetPlatformInfo. Error code: %d\n", err);
     return 0;
   }
   printf("Platform: %s\n", param_value);
 
-  err = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_GPU, 1, &device_id, &n_devices);
+  err = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_GPU, 1, &device_id,
+                       &n_devices);
   if (err != CL_SUCCESS) {
     printf("[ERROR] Error calling clGetDeviceIDs. Error code: %d\n", err);
     return 0;
   }
   printf("Number of devices: %d\n", n_devices);
 
-  err = clGetDeviceInfo(device_id, CL_DEVICE_NAME, 1000, param_value, &real_size);
+  err =
+      clGetDeviceInfo(device_id, CL_DEVICE_NAME, 1000, param_value, &real_size);
   if (err != CL_SUCCESS) {
     printf("[ERROR] Error calling clGetDeviceInfo. Error code: %d\n", err);
     return 0;
