@@ -9,11 +9,14 @@ void print_array(float *arr, size_t size);
 void fill_array(float *arr, size_t size);
 void vector_add(float *A, float *B, float *result, size_t size);
 /**
- * 3. Leképzés (mapping) megvalósítása
- *  Az eredménytömbbe állítsuk be a globális/lokális indexet!
- *  - Adjuk meg az elemeket visszafele sorrendben!
- *  - Cseréljük meg a szomszédos, páros és páratlan indexeken lévő elemeket!
- *  - Adjunk további példákat hasonló formában megoldható problémákra!
+ *
+ * 4. Vektorok összeadása
+ *
+ *   Készítsünk programot két valós vektor összeadására!
+ *   Szervezzük át a programot úgy, hogy a függvény hívásakor ne látszódjon,
+ * hogy OpenCL-es implementációról van szó! Szekvenciális programmal
+ * ellenőríztessük az eredmény helyességét!
+ *
  */
 int main() {
   size_t size = 10;
