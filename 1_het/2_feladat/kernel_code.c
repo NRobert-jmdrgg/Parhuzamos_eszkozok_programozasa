@@ -6,6 +6,11 @@ char *readFromFile(const char *);
 
 const int SAMPLE_SIZE = 1000;
 
+/**
+ * 2. Kódbetöltő készítése
+ * Készítsünk egy programrészt, amelyik a kernel forráskódját egy cl kiterjesztésű szöveges fájlból olvassa be!
+ * Szervezzük át az előző programokat, hogy a kernelek például kernels/hello_kernel.cl útvonalról legyenek betöltve!
+*/
 int main() {
   int i;
   cl_int err;

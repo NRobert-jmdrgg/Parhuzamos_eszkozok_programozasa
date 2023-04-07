@@ -1,6 +1,10 @@
 #include <CL/cl.h>
 #include <stdio.h>
 
+/**
+ * 1. Eszközinformációk kiíratása    
+ * Nézzük meg, hogy a clinfo program kimenetét hogyan tudnánk saját programmal előállítani!
+*/
 int main() {
   cl_int err;
   cl_platform_id platform_id;
