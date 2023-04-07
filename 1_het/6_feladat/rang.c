@@ -9,15 +9,13 @@ char *readFromFile(const char *);
 void print_array(int *arr, size_t size);
 void fill_array(int *arr, size_t size);
 void rang(int *arr, int *rang, size_t size);
-/**
- * 5. Hiányzó elemek pótlása
+/***
+ * 6. Rang számítása
  *
- * Tegyük fel, hogy egy nemnegatív egészeket tartalmazó tömbből elszórtan
- * hiányoznak elemek. Pótoljuk ezeket a szomszédos elemek átlagával!
+ *  Egy elem rangját jelentse az, hogy az adott elemnél mennyi kisebb elem
+ * fordul elő a tömbben.
  *
- *   Feltételezzük, hogy a hiányzó elemek mindkét szomszéd ismert.
- *   Készítsünk függvényt, amelyik ilyen bemenetet tud előállítani!
- *
+ *  Számítsuk ki egy egészeket tartalmazó tömb összes elemének a rangját!
  */
 int main() {
   size_t size = 10;
