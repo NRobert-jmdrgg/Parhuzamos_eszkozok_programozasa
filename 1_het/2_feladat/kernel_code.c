@@ -2,20 +2,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char *readFromFile(const char *);
+char* readFromFile(const char*);
 
 const int SAMPLE_SIZE = 1000;
 
 /**
  * 2. Kódbetöltő készítése
- * Készítsünk egy programrészt, amelyik a kernel forráskódját egy cl kiterjesztésű szöveges fájlból olvassa be!
- * Szervezzük át az előző programokat, hogy a kernelek például kernels/hello_kernel.cl útvonalról legyenek betöltve!
-*/
+ * Készítsünk egy programrészt, amelyik a kernel forráskódját egy cl
+ * kiterjesztésű szöveges fájlból olvassa be! Szervezzük át az előző
+ * programokat, hogy a kernelek például kernels/hello_kernel.cl útvonalról
+ * legyenek betöltve!
+ */
 int main() {
   int i;
   cl_int err;
 
-  char *kernel_code = readFromFile("./kernel/kernel_code.cl");
+  char* kernel_code = readFromFile("./kernel/kernel_code.cl");
 
   // Get platform
   cl_uint n_platforms;
@@ -29,8 +31,13 @@ int main() {
   // Get device
   cl_device_id device_id;
   cl_uint n_devices;
-  err = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_GPU, 1, &device_id,
-                       &n_devices);
+  err = clGetDeviceIDs(
+      platform_id,
+      CL_DEVICE_TYPE_GPU,
+      1,
+      &device_id,
+      &n_devices
+  );
   if (err != CL_SUCCESS) {
     printf("[ERROR] Error calling clGetDeviceIDs. Error code: %d\n", err);
     return 0;
@@ -42,7 +49,12 @@ int main() {
 
   // Build the program
   cl_program program = clCreateProgramWithSource(
-      context, 1, (const char **)&kernel_code, NULL, NULL);
+      context,
+      1,
+      (const char**)&kernel_code,
+      NULL,
+      NULL
+  );
 
   err = clBuildProgram(program, 0, NULL, NULL, NULL, NULL);
 
@@ -54,26 +66,40 @@ int main() {
   cl_kernel kernel = clCreateKernel(program, "hello_kernel", NULL);
 
   // Create the host buffer and initialize it
-  int *host_buffer = (int *)malloc(SAMPLE_SIZE * sizeof(int));
+  int* host_buffer = (int*)malloc(SAMPLE_SIZE * sizeof(int));
   for (i = 0; i < SAMPLE_SIZE; ++i) {
     host_buffer[i] = i;
   }
 
   // Create the device buffer
-  cl_mem device_buffer = clCreateBuffer(context, CL_MEM_READ_WRITE,
-                                        SAMPLE_SIZE * sizeof(int), NULL, NULL);
+  cl_mem device_buffer = clCreateBuffer(
+      context,
+      CL_MEM_READ_WRITE,
+      SAMPLE_SIZE * sizeof(int),
+      NULL,
+      NULL
+  );
 
   // Set kernel arguments
-  clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *)&device_buffer);
-  clSetKernelArg(kernel, 1, sizeof(int), (void *)&SAMPLE_SIZE);
+  clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*)&device_buffer);
+  clSetKernelArg(kernel, 1, sizeof(int), (void*)&SAMPLE_SIZE);
 
   // Create the command queue
   cl_command_queue command_queue =
       clCreateCommandQueue(context, device_id, NULL, NULL);
 
   // Host buffer -> Device buffer
-  clEnqueueWriteBuffer(command_queue, device_buffer, CL_FALSE, 0,
-                       SAMPLE_SIZE * sizeof(int), host_buffer, 0, NULL, NULL);
+  clEnqueueWriteBuffer(
+      command_queue,
+      device_buffer,
+      CL_FALSE,
+      0,
+      SAMPLE_SIZE * sizeof(int),
+      host_buffer,
+      0,
+      NULL,
+      NULL
+  );
 
   // Size specification
   size_t local_work_size = 256;
@@ -81,12 +107,30 @@ int main() {
   size_t global_work_size = n_work_groups * local_work_size;
 
   // Apply the kernel on the range
-  clEnqueueNDRangeKernel(command_queue, kernel, 1, NULL, &global_work_size,
-                         &local_work_size, 0, NULL, NULL);
+  clEnqueueNDRangeKernel(
+      command_queue,
+      kernel,
+      1,
+      NULL,
+      &global_work_size,
+      &local_work_size,
+      0,
+      NULL,
+      NULL
+  );
 
   // Host buffer <- Device buffer
-  clEnqueueReadBuffer(command_queue, device_buffer, CL_TRUE, 0,
-                      SAMPLE_SIZE * sizeof(int), host_buffer, 0, NULL, NULL);
+  clEnqueueReadBuffer(
+      command_queue,
+      device_buffer,
+      CL_TRUE,
+      0,
+      SAMPLE_SIZE * sizeof(int),
+      host_buffer,
+      0,
+      NULL,
+      NULL
+  );
 
   for (i = 0; i < SAMPLE_SIZE; ++i) {
     printf("[%d] = %d, ", i, host_buffer[i]);
@@ -102,8 +146,8 @@ int main() {
   free(kernel_code);
 }
 
-char *readFromFile(const char *filepath) {
-  FILE *file = fopen(filepath, "rf");
+char* readFromFile(const char* filepath) {
+  FILE* file = fopen(filepath, "rf");
   if (!file) {
     printf("Nem sikerult megnyitni\n");
     return NULL;
@@ -113,7 +157,7 @@ char *readFromFile(const char *filepath) {
   size_t len = ftell(file) + 1;
   fseek(file, 0L, SEEK_SET);
 
-  char *kernel_code = (char *)malloc(len);
+  char* kernel_code = (char*)malloc(len);
   fread(kernel_code, sizeof(char), len, file);
   kernel_code[len - 1] = '\0';
 

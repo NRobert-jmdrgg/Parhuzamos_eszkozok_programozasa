@@ -1,11 +1,11 @@
+#include <CL/cl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <CL/cl.h>
 
 #define ARRAY_SIZE 10
 
-void generateArray(int *arr, size_t size, int seed);
+void generateArray(int* arr, size_t size, int seed);
 
 int main() {
   cl_int err;
@@ -17,7 +17,7 @@ int main() {
   cl_program program;
   cl_kernel kernel;
   size_t global_work_size[1];
-  cl_int *output;
+  cl_int* output;
   int i;
 
   int a[10];
@@ -51,8 +51,13 @@ int main() {
     return 0;
   }
   // Allocate memory on the device for the output array
-  memobj = clCreateBuffer(context, CL_MEM_READ_WRITE,
-                          ARRAY_SIZE * sizeof(cl_int), NULL, &err);
+  memobj = clCreateBuffer(
+      context,
+      CL_MEM_READ_WRITE,
+      ARRAY_SIZE * sizeof(cl_int),
+      NULL,
+      &err
+  );
 
   if (err != CL_SUCCESS) {
     printf("[ERROR] Error calling clCreateBuffer. Error code: %d\n", err);
@@ -60,7 +65,7 @@ int main() {
   }
 
   // Create the kernel
-  const char *source =
+  const char* source =
       "__kernel void generate_random(__global int* input) {\n"
       "    printf(\"%d \", );\n"
       "    srand(seed + gid);\n"
@@ -69,19 +74,33 @@ int main() {
 
   program = clCreateProgramWithSource(context, 1, &source, NULL, &err);
   if (err != CL_SUCCESS) {
-    printf("[ERROR] Error calling clCreateProgramWithSource. Error code: %d\n",
-           err);
+    printf(
+        "[ERROR] Error calling clCreateProgramWithSource. Error code: %d\n",
+        err
+    );
     return 0;
   }
   err = clBuildProgram(program, 0, NULL, NULL, NULL, NULL);
   if (err != CL_SUCCESS) {
     printf("[ERROR] Error calling clBuildProgram. Error code: %d\n", err);
     size_t log_size;
-    clGetProgramBuildInfo(program, device_id, CL_PROGRAM_BUILD_LOG, 0, NULL,
-                          &log_size);
-    char *log = (char *)malloc(log_size);
-    clGetProgramBuildInfo(program, device_id, CL_PROGRAM_BUILD_LOG, log_size,
-                          log, NULL);
+    clGetProgramBuildInfo(
+        program,
+        device_id,
+        CL_PROGRAM_BUILD_LOG,
+        0,
+        NULL,
+        &log_size
+    );
+    char* log = (char*)malloc(log_size);
+    clGetProgramBuildInfo(
+        program,
+        device_id,
+        CL_PROGRAM_BUILD_LOG,
+        log_size,
+        log,
+        NULL
+    );
     printf("Build log:\n%s\n", log);
     free(log);
     return 0;
@@ -94,7 +113,7 @@ int main() {
   }
 
   // Set the arguments for the kernel
-  err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *)&memobj);
+  err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*)&memobj);
   if (err != CL_SUCCESS) {
     printf("[ERROR] Error calling clSetKernelArg. Error code: %d\n", err);
     return 0;
@@ -108,19 +127,39 @@ int main() {
 
   // Execute the kernel
   global_work_size[0] = ARRAY_SIZE;
-  err = clEnqueueNDRangeKernel(command_queue, kernel, 1, NULL, global_work_size,
-                               NULL, 0, NULL, NULL);
+  err = clEnqueueNDRangeKernel(
+      command_queue,
+      kernel,
+      1,
+      NULL,
+      global_work_size,
+      NULL,
+      0,
+      NULL,
+      NULL
+  );
 
   if (err != CL_SUCCESS) {
-    printf("[ERROR] Error calling clEnqueueNDRangeKernel. Error code: %d\n",
-           err);
+    printf(
+        "[ERROR] Error calling clEnqueueNDRangeKernel. Error code: %d\n",
+        err
+    );
     return 0;
   }
 
   // Read the output back to the host
-  output = (cl_int *)malloc(ARRAY_SIZE * sizeof(cl_int));
-  err = clEnqueueReadBuffer(command_queue, memobj, CL_TRUE, 0,
-                            ARRAY_SIZE * sizeof(cl_int), output, 0, NULL, NULL);
+  output = (cl_int*)malloc(ARRAY_SIZE * sizeof(cl_int));
+  err = clEnqueueReadBuffer(
+      command_queue,
+      memobj,
+      CL_TRUE,
+      0,
+      ARRAY_SIZE * sizeof(cl_int),
+      output,
+      0,
+      NULL,
+      NULL
+  );
 
   if (err != CL_SUCCESS) {
     printf("[ERROR] Error calling clEnqueueReadBuffer. Error code: %d\n", err);
@@ -143,7 +182,7 @@ int main() {
   return 0;
 }
 
-void generateArray(int *arr, size_t size, int seed) {
+void generateArray(int* arr, size_t size, int seed) {
   srand(seed);
 
   for (size_t i = 0; i < size; ++i) {
