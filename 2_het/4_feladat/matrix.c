@@ -9,15 +9,19 @@ void matrix_col_sum(cl_context context, cl_device_id device_id);
 void matrix_row_sum(cl_context context, cl_device_id device_id);
 char* readFromFile(const char* filepath);
 void print_array(float* arr, int size);
+
 /**
- * 3. Profilozás
+ * 4. Mátrix műveletek
  *
- * Készítsünk programot az egyes programrészek futási idejének méréséhez!
+ * Implementáljuk a következő mátrix műveleteket OpenCL segítségével!
+ *   Transzponálás
+ *   Szorzás
+ *   Oszlopösszeg számítás
+ *   Sorösszeg számítás
  *
- * Válasszunk megfelelő mértékegységet!
- * Jelenítsük meg grafikonon, hogy a program mennyi időt tölt az egyes
- * műveletekkel a 01_hello példa esetében!
+ * (A mátrix megadásához használjunk sor- vagy oszlopfolytonos tárolási módot.)
  */
+
 int main() {
   cl_uint n_platforms;
   cl_platform_id platform_id;
