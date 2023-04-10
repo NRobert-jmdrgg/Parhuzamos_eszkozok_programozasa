@@ -44,8 +44,8 @@ bool array_is_sorted(int* arr, int size) {
 
 bool array_contains_duplicates(int* arr, int size) {
   for (int i = 0; i < size; i++) {
-    for (int j = 0; j < size; j++) {
-      if (i != j && arr[i] == arr[j]) {
+    for (int j = i + 1; j < size; j++) {
+      if (arr[i] == arr[j]) {
         return true;
       }
     }
